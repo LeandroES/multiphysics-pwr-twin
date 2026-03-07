@@ -51,6 +51,20 @@ services:
       redis:
         condition: service_healthy
 
+  migrate:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: runtime
+    container_name: pwr_migrate
+    command: alembic upgrade head
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: "no"
+
   worker:
     build:
       context: ./backend
