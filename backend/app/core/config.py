@@ -25,5 +25,16 @@ class Settings(BaseSettings):
     debug: bool = False
     secret_key: str = "change_me_in_production"
 
+    # CORS — comma-separated list of allowed origins.
+    # In Docker the frontend Nginx proxies /api → FastAPI on the internal
+    # network, so no browser CORS header is needed.  These origins cover the
+    # Vite dev server and any direct API access during local development.
+    cors_origins: list[str] = [
+        "http://localhost:3000",
+        "http://localhost:5173",
+        "http://127.0.0.1:3000",
+        "http://127.0.0.1:5173",
+    ]
+
 
 settings = Settings()

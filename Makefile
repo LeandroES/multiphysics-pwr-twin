@@ -53,7 +53,7 @@ test-cov: ## Run tests with coverage report
 ## ── Utilities ────────────────────────────────────────────────────────────────
 
 env: ## Copy .env.example to .env if it doesn't exist yet
-	@[ -f .env ] && echo ".env already exists, skipping." || (cp .env.example .env && echo "Created .env from .env.example")
+	@[ -f .env ] && echo ".env already exists, skipping." || (cp .env && echo "Created .env from .env.example")
 
 help: ## Show this help message
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
