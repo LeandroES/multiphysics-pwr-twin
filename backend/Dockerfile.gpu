@@ -32,7 +32,7 @@ COPY pyproject.toml ./
 # Install all [project.dependencies] into the base Python env.
 # Torch is already installed by the base image; uv will skip it if versions
 # are compatible or upgrade in-place if needed.
-RUN uv pip install --system --no-cache -r pyproject.toml
+RUN uv pip install --system --break-system-packages --no-cache -r pyproject.toml
 
 # ── Copy application source ──────────────────────────────────────────────────
 COPY . .

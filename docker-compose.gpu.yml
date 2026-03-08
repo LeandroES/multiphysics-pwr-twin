@@ -81,9 +81,11 @@ services:
       # ── HIP / ROCm path hints ─────────────────────────────────────────
       ROCM_PATH: "/opt/rocm"
       HIP_PATH: "/opt/rocm"
+      LD_LIBRARY_PATH: "/usr/lib/wsl/lib"
 
     volumes:
       - ./backend:/app
+      - /usr/lib/wsl/lib:/usr/lib/wsl/lib:ro
 
     depends_on:
       db:
@@ -100,9 +102,10 @@ services:
     # NOTE: Docker Compose `devices` requires Docker Engine ≥ 19.03.
     devices:
       # HSA kernel driver — required for ROCm runtime
-      - /dev/kfd
+      #- /dev/kfd
       # DRM render nodes — typically renderD128, renderD129, ...
-      - /dev/dri
+      #- /dev/dri
+      - /dev/dxg:/dev/dxg
 
     group_add:
       # Grants the container user access to GPU render and video devices
