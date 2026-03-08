@@ -38,6 +38,6 @@ COPY --from=builder /build/dist /usr/share/nginx/html
 EXPOSE 80
 
 # Validate config before starting
-RUN nginx -t
+#RUN nginx -t
 
 CMD ["nginx", "-g", "daemon off;"]

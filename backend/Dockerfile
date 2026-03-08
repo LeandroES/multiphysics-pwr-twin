@@ -9,13 +9,16 @@ WORKDIR /build
 # Install uv for fast dependency resolution and installation
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /usr/local/bin/
 
-# Copy only the manifest first to leverage layer caching
+# Set environment variables so uv knows where the venv is
+ENV VIRTUAL_ENV=/opt/venv
+ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+
+# Copy only the manifest first to leverage layer caching [cite: 1]
 COPY pyproject.toml .
 
-# Create a virtual environment and install production dependencies
-RUN uv venv /opt/venv && \
-    UV_PROJECT_ENVIRONMENT=/opt/venv uv pip install --no-cache -r pyproject.toml
-
+# Create the venv and install dependencies using the standard path
+RUN uv venv $VIRTUAL_ENV && \
+    uv pip install --no-cache -r pyproject.toml
 
 # ─── Stage 2: runtime image ─────────────────────────────────────────────────
 FROM python:${PYTHON_VERSION}-slim AS runtime
